@@ -1,0 +1,77 @@
+#* @vtlvariable name="history" type="jhole.history.History" *#
+<html>
+<head>
+
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .black-top td {
+            border-top: solid 1px black;
+        }
+
+        td, th {
+            border: solid 1px #CCC;
+            border-bottom: none;
+        }
+
+        table form {
+            display: inline;
+        }
+
+        ul.error {
+            border: red 3px solid;
+            font-weight: bold;
+        }
+
+        .weak {
+            padding: 0 10px;
+            margin: 0;
+            color: #CCC;
+        }
+
+        td label {
+            margin: 0;
+        }
+
+        td {
+            padding: 0 5px;
+        }
+
+        a.selected {
+            font-weight: bold;
+            background: #e1e1e1;
+            padding: 0 5px;
+        }
+    </style>
+</head>
+<body>
+<table>
+    #foreach($entry in $history.entries)
+        <tr class="black-top">
+            <td colspan="3">$entry.name</td>
+        </tr>
+        #foreach($section in $entry.sections)
+            <tr>
+                <td>
+                    #set($i = $foreach.parent.count - 1)
+                    <a target="display" href="/history/$i/${section.name}.txt">$section.name </a>
+                </td>
+                <td>$section.content.bytes.size()</td>
+                <td>
+                    #set($lb=$section.content.indexOf(10))
+                    #if($lb > 0 && $lb < 100)
+                        $section.content.substring(0, $lb)
+                    #end
+                </td>
+            </tr>
+        #end
+    #end
+</table>
+</body>
+</html>
